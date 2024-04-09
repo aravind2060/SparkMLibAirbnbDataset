@@ -7,7 +7,7 @@ from pyspark.ml.tuning import CrossValidator, ParamGridBuilder
 
 # Function to create a Spark session
 def create_spark_session():
-    spark = SparkSession.builder.appName("RandomForestCVExample").getOrCreate()
+    spark = SparkSession.builder.appName("KFold").getOrCreate()
     spark.sparkContext.setLogLevel("WARN")
     return spark
 
@@ -68,16 +68,16 @@ def apply_model_and_get_top_predictions(cv_model, test_df):
     top_pred_df = pred_df.orderBy("prediction", ascending=False).limit(20)
     top_pred_df.show()
 
-    # Calculate and print RMSE
     evaluator = RegressionEvaluator(predictionCol="prediction", labelCol="price", metricName="rmse")
     rmse = evaluator.evaluate(pred_df)
     print(f"RMSE is {rmse:.1f}")
 
-    # Select necessary columns before saving to CSV
     selected_columns = [col for col in pred_df.columns if col != 'features']
-    top_pred_df.select(*selected_columns).write.csv("/workspaces/SparkMLibAirbnbDataset/data/output/Kflod/top_predictions.csv", header=True)
+    output_path = "/workspaces/SparkMLibAirbnbDataset/data/output/Kflod/top_predictions.csv"
+    top_pred_df.select(*selected_columns).write.mode('overwrite').csv(output_path, header=True)
 
     return top_pred_df
+
 
 
 # Main function to orchestrate the model building and evaluation
