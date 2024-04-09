@@ -1,0 +1,17 @@
+feature,importance
+host_is_superhostIndex,0.0
+cancellation_policyIndex,0.16789299
+instant_bookableIndex,0.14008105
+neighbourhood_cleansedIndex,0.056199767
+property_typeIndex,0.12817855
+room_typeIndex,0.0109050255
+bed_typeIndex,0.0
+host_total_listings_count,0.0
+latitude,0.0
+longitude,0.03880952
+accommodates,0.0036033706
+bathrooms,0.0
+bedrooms,0.28340596
+beds,0.015218222
+minimum_nights,0.02947268
+number_of_reviews,0.12623285
