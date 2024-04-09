@@ -93,15 +93,19 @@ def generate_predictions(model, testDF, predictions_output, spark):
 def main():
     spark = create_spark_session()
     file_path = "/workspaces/SparkMLibAirbnbDataset/data/input/sf-airbnb-clean.parquet"
+    
     airbnbDF = load_data(spark, file_path)
-    initial_data_output = "/workspaces/SparkMLibAirbnbDataset/data/output/initial_data.csv"
+    initial_data_output = "/workspaces/SparkMLibAirbnbDataset/data/output/decision/initial_data.csv"
     show_and_save_initial_data(airbnbDF, initial_data_output)
+    
     trainDF, testDF = prepare_data(airbnbDF)
     model = train_decision_tree(trainDF)
-    feature_importance_output = "/workspaces/SparkMLibAirbnbDataset/data/output/feature_importances.csv"
+    
+    feature_importance_output = "/workspaces/SparkMLibAirbnbDataset/data/output/decision/feature_importances.csv"
     vecAssembler = model.stages[1]  # Assuming VectorAssembler is the second stage in the pipeline
+    
     evaluate_model(spark,model, vecAssembler, feature_importance_output)
-    predictions_output = "/workspaces/SparkMLibAirbnbDataset/data/output/predictions.csv"
+    predictions_output = "/workspaces/SparkMLibAirbnbDataset/data/output/decision/predictions.csv"
     generate_predictions(model, testDF, predictions_output, spark)
 
 # Entry point of the script
